@@ -25,9 +25,7 @@ async function handleSearchQuery(event) {
   event.preventDefault();
   searchQuery = event.target.elements.query.value;
   const startPage = 1;
-  const characters = await fetchCharacterPage(startPage, searchQuery);
-  setPagination(startPage, characters.info.pages);
-  renderCharacterCards(characters);
+  App(startPage, searchQuery);
 }
 
 function setPagination(newPage, maximumPage) {
@@ -39,9 +37,7 @@ function setPagination(newPage, maximumPage) {
 async function handlePageChange(step) {
   const newPage = page + step;
   if (newPage > 0 && newPage <= maxPage) {
-    const characters = await fetchCharacterPage(newPage, searchQuery);
-    setPagination(newPage, characters.info.pages);
-    renderCharacterCards(characters);
+    App(newPage, searchQuery);
   } else {
     console.log(
       step > 0 ? "No more pages to display." : "Whoops, you can't go to page 0."
@@ -49,10 +45,10 @@ async function handlePageChange(step) {
   }
 }
 
-async function App() {
+async function App(page, searchQuery) {
   const characters = await fetchCharacterPage(page, searchQuery);
   setPagination(page, characters.info.pages);
   renderCharacterCards(characters);
 }
 
-App();
+App(page, searchQuery);
